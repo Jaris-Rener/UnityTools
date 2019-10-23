@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 239f3c3fe53a77b4187d9a65a2e8f0df, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b90d451f8175374ab51eab783fd2f5b, type: 3}
   m_Name: ExampleAudioCollection
   m_EditorClassIdentifier: 
   Collection:
-  - Key: Howdy
-    Clip: {fileID: 8300000, guid: d03a27d97b923b941950f5c5e4cadcdb, type: 3}
-  - Key: Hello
-    Clip: {fileID: 8300000, guid: b1021ad98f3d38a45a3df6e87526aef5, type: 3}
-  - Key: Apple
-    Clip: {fileID: 8300000, guid: 79b8d6fcaac822b478aaf966ceea4256, type: 3}
+  - Key: A
+    Clip: {fileID: 8300000, guid: 57537e85a0b6c544db8db35241e65bf2, type: 3}
+  - Key: asdAS
+    Clip: {fileID: 8300000, guid: ec9a4a12fba4b6747b722dc68b8807c1, type: 3}
+  - Key: 123asd
+    Clip: {fileID: 8300000, guid: 8b0b45d110d829a4e91ad463ac4da74e, type: 3}

@@ -1,11 +1,13 @@
-﻿using System.IO;
-using UnityEditor;
-using UnityEngine;
-
-public static class AudioCollectionUtility
+﻿namespace AudioCollections
 {
-    public static void PlayClip(this AudioSource source, CollectionClip clip, float volume = 1)
+    using UnityEngine;
+
+    public static class AudioCollectionUtility
     {
-        source.PlayOneShot(clip.Clip, volume);
+        public static void PlayClip(this AudioSource source, CollectionClip clip, float volume = 1)
+        {
+            source.PlayOneShot(clip.Clip, volume);
+        }
     }
+
 }

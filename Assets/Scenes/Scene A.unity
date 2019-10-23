@@ -162,15 +162,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 545589440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd603b82d18cb6147913fe8931f92e12, type: 3}
+  m_Script: {fileID: 11500000, guid: 17d679fbaa2335f44ae22b4c85bc2db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Clip:
-    _collection: {fileID: 11400000, guid: eab10d3ecf8957b4a8713eb9179d25e0, type: 2}
-    _singleClip: {fileID: 0}
+    _collection: {fileID: 11400000, guid: 653c9b5645ccaaf4f9653c461b7187e1, type: 2}
+    _singleClip: {fileID: 8300000, guid: 57537e85a0b6c544db8db35241e65bf2, type: 3}
     _useCollection: 1
-    _selected: 1
-  Source: {fileID: 545589443}
+    _selected: 2
+  Source: {fileID: 0}
   Delay: 1
 --- !u!82 &545589443
 AudioSource:
@@ -554,7 +554,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b151e6221583d3044a13d14834667325, type: 2}
+  - {fileID: 2100000, guid: b0a25ce8c5362d64999c15e1652116ff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

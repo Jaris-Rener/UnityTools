@@ -1,20 +1,24 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class AudioPlayer
-    : MonoBehaviour
+﻿namespace AudioCollections
 {
-    public CollectionClip Clip;
-    public AudioSource Source;
+    using System.Collections;
+    using UnityEngine;
 
-    public float Delay = 1;
-
-    IEnumerator Start()
+    public class AudioPlayer
+        : MonoBehaviour
     {
-        while (true)
+        public CollectionClip Clip;
+        public AudioSource Source;
+
+        public float Delay = 1;
+
+        IEnumerator Start()
         {
-            yield return new WaitForSeconds(Delay);
-            Source.PlayClip(Clip, 1);
+            while (true)
+            {
+                yield return new WaitForSeconds(Delay);
+                Source.PlayClip(Clip, 1);
+            }
         }
     }
+
 }
