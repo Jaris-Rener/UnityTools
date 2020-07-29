@@ -135,7 +135,9 @@ public class BuiltInResourcesWindow : EditorWindow
 
                 foreach (UnityEngine.Object oo in _objects)
                 {
-                    Texture texture = (Texture) oo;
+                    Texture texture = oo as Texture2D;
+                    if(texture == null)
+                        continue;
 
                     if (texture.name == "")
                         continue;

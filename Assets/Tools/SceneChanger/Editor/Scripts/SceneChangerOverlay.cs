@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using UnityEngine;
+﻿using System.IO;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EditorUtilities
 {
@@ -54,8 +53,8 @@ namespace EditorUtilities
             Handles.BeginGUI();
             GUILayout.BeginArea(new Rect(Vector2.zero, _sceneView.maxSize));
             GUILayout.BeginVertical();
-            GUILayout.Space(16);
-            var activeStyle = new GUIStyle((GUIStyle) "LargeButtonRight");
+            GUILayout.Space(4);
+            var activeStyle = new GUIStyle("LargeButtonRight");
             for (var i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 var scenePath = SceneUtility.GetScenePathByBuildIndex(i);
