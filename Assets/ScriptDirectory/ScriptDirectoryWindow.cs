@@ -14,8 +14,8 @@ public class ScriptDirectoryWindow
     [MenuItem("Tools/Scripts Directory")]
     public static void Init()
     {
-        _window = (ScriptDirectoryWindow)GetWindow(typeof(ScriptDirectoryWindow));
-        _window.titleContent = new GUIContent("Script Directory", EditorGUIUtility.FindTexture( "d__Help" ));
+        _window = (ScriptDirectoryWindow) GetWindow(typeof(ScriptDirectoryWindow));
+        _window.titleContent = new GUIContent("Script Directory", EditorGUIUtility.FindTexture("d__Help"));
         _window.Show();
     }
 
@@ -29,6 +29,10 @@ public class ScriptDirectoryWindow
         var btnStyle = new GUIStyle("IconButton");
         btnStyle.fixedHeight = EditorGUIUtility.singleLineHeight;
         btnStyle.margin.top = 4;
+
+        if (GUILayout.Button(EditorGUIUtility.IconContent("d_CreateAddNew"), btnStyle))
+            AddFile();
+
         if (GUILayout.Button(EditorGUIUtility.IconContent("d_Refresh"), btnStyle) || _files == null)
             RefreshList();
 
@@ -38,7 +42,7 @@ public class ScriptDirectoryWindow
         GUILayout.Space(4);
 
         GUILayout.EndHorizontal();
-        _search = EditorGUILayout.TextField(_search, (GUIStyle)"SearchTextField");
+        _search = EditorGUILayout.TextField(_search, (GUIStyle) "SearchTextField");
         GUILayout.Space(2);
 
         var scrollViewStyle = new GUIStyle("ProfilerScrollviewBackground");
@@ -46,18 +50,22 @@ public class ScriptDirectoryWindow
         _scrollPos = GUILayout.BeginScrollView(_scrollPos, scrollViewStyle);
         if (_files != null)
         {
-            var filteredFiles = string.IsNullOrWhiteSpace(_search) ? _files : _files.Where(x => x.FullName.Contains(_search));
+            var filteredFiles = string.IsNullOrWhiteSpace(_search)
+                ? _files
+                : _files.Where(x => x.FullName.Contains(_search));
             foreach (var file in filteredFiles)
             {
                 DrawFile(file);
             }
         }
+
         GUILayout.EndScrollView();
     }
 
     private void SetPath()
     {
-        var dir = EditorUtility.OpenFolderPanel("Choose script directory path: ", EditorPrefs.GetString(_scriptDirectoryPath, Application.dataPath), string.Empty);
+        var dir = EditorUtility.OpenFolderPanel("Choose script directory path: ",
+            EditorPrefs.GetString(_scriptDirectoryPath, Application.dataPath), string.Empty);
 
         if (string.IsNullOrWhiteSpace(dir))
             return;
@@ -90,28 +98,72 @@ public class ScriptDirectoryWindow
             GUILayout.BeginHorizontal(bgStyle);
             GUILayout.Label(EditorGUIUtility.IconContent("d_cs Script Icon"), GUILayout.Width(18), GUILayout.Height(18));
             GUILayout.Label(file.Name, GUILayout.MaxWidth(Mathf.Min(128, position.width - 75)));
-            GUILayout.Label(file.FullName, pathStyle, GUILayout.MaxWidth(position.width - 205));
+            GUILayout.Label(file.FullName, pathStyle, GUILayout.MaxWidth(position.width - 180));
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(EditorGUIUtility.IconContent("Update-Available"), "IconButton"))
-            {
-                AddFile(file);
-            }
 
+            var importBtnStyle = new GUIStyle("IconButton");
+            importBtnStyle.margin.top = 4;
+            if (GUILayout.Button(EditorGUIUtility.IconContent("winbtn_win_close"), importBtnStyle))
+            {
+                DeleteFile(file);
+            }
+            if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Plus"), importBtnStyle))
+            {
+                ImportFile(file);
+            }
             GUILayout.EndHorizontal();
         }
     }
 
-    private void AddFile(FileInfo file)
+    private void DeleteFile(FileInfo file)
     {
-        var targetPath = Application.dataPath + $"/{file.Name}";
-        if (File.Exists(targetPath))
+        if (EditorUtility.DisplayDialog("Permanently Delete Script", $"Are you sure you want to delete {file} from your Script Directory? This action can not be reversed.",
+            "Delete", "Cancel"))
         {
-            Debug.Log("File already exists in project.");
-            return;
+            File.Delete(file.FullName);
+            RefreshList();
         }
+    }
 
-        File.Copy(file.FullName, targetPath);
-        AssetDatabase.Refresh();
+    private void AddFile()
+    {
+        if (Selection.objects.Length > 1 || !(Selection.activeObject is TextAsset asset))
+            return;
+
+        var path = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
+        path = Path.Combine(Directory.GetParent(Application.dataPath).FullName, path);
+        var ext = Path.GetExtension(path);
+        if (ext != ".cs")
+            return;
+
+        var targetPath = EditorPrefs.GetString(_scriptDirectoryPath, Application.dataPath) + $"/{Selection.activeObject.name}.cs";
+        if (File.Exists(targetPath))
+            return;
+
+        if (EditorUtility.DisplayDialog("Add Script", $"Do you want to add {asset.name} to your Script Directory?",
+            "Add", "Cancel"))
+        {
+            File.Copy(path, targetPath);
+            RefreshList();
+        }
+    }
+
+    private void ImportFile(FileInfo file)
+    {
+        if (EditorUtility.DisplayDialog("Add Script",
+            $"Do you want to add {file.Name} to the project?",
+            "Import", "Cancel"))
+        {
+            var targetPath = Application.dataPath + $"/{file.Name}";
+            if (File.Exists(targetPath))
+            {
+                Debug.Log("File already exists in project.");
+                return;
+            }
+
+            File.Copy(file.FullName, targetPath);
+            AssetDatabase.Refresh();
+        }
     }
 
     private FileInfo[] _files;
