@@ -36,7 +36,7 @@ public class ScriptDirectoryWindow
         if (GUILayout.Button(EditorGUIUtility.IconContent("d_Refresh"), btnStyle) || _files == null)
             RefreshList();
 
-        if (GUILayout.Button(EditorGUIUtility.IconContent("d_OpenedFolder Icon"), btnStyle))
+        if (GUILayout.Button(EditorGUIUtility.IconContent("d_FolderOpened Icon"), btnStyle))
             SetPath();
 
         GUILayout.Space(4);
@@ -105,7 +105,7 @@ public class ScriptDirectoryWindow
             importBtnStyle.margin.top = 4;
             if (GUILayout.Button(EditorGUIUtility.IconContent("winbtn_win_close"), importBtnStyle))
             {
-                DeleteFile(file);
+                PromptDeleteFile(file);
             }
             if (GUILayout.Button(EditorGUIUtility.IconContent("Toolbar Plus"), importBtnStyle))
             {
@@ -115,7 +115,7 @@ public class ScriptDirectoryWindow
         }
     }
 
-    private void DeleteFile(FileInfo file)
+    private void PromptDeleteFile(FileInfo file)
     {
         if (EditorUtility.DisplayDialog("Permanently Delete Script", $"Are you sure you want to delete {file} from your Script Directory? This action can not be reversed.",
             "Delete", "Cancel"))
